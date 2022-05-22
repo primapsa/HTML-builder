@@ -14,3 +14,4 @@ stdin.on('data', (data)=>{
     fileHandler.write(data);}    
 });
 process.on('exit', ()=>stdout.write('Good work! Bye!'));
+process.on('SIGINT', ()=>process.exit());
