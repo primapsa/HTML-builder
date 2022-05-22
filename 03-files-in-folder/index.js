@@ -12,7 +12,7 @@ fs.promises.readdir(folderPath).then((list) => {
           let fileExtension = path.extname(filePath).substring(1);
           let fileName = path.basename(filePath);         
           fileName = fileName.substring(0, fileName.lastIndexOf('.'));          
-          process.stdout.write(`${fileName} - ${fileExtension} - ${fileSize} bytes\r\n`);
+          process.stdout.write(`${fileName} - ${fileExtension} - ${fileSize} byte(s)\r\n`);
         }        
       });
     }   
