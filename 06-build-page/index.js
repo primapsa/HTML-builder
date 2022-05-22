@@ -32,9 +32,10 @@ function copyWithReplace(readHandler, writeHandler){
 function mergeFiles(from, to ){
   const pathDest = path.join(__dirname, to);
   const pathSrc = path.join(__dirname, from);
+  const writeHandler = fs.WriteStream(path.join(pathDest,'style.css'),'utf-8');
   fs.promises.readdir(pathSrc).then((list) => { 
     if(!list.length) return;
-    let writeHandler = fs.WriteStream(path.join(pathDest,'style.css'),'utf-8');
+    
     list.forEach((file)=> {
       if(!file) return;
       let filePath = path.join(pathSrc, file);
