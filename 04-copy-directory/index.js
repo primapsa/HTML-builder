@@ -13,10 +13,21 @@ fs.stat(folderDest, err =>{
 });
 fs.mkdir(folderDest,{ recursive: true}, err =>{
   if(err) throw new Error(err);
-  fs.promises.readdir(folderSrc).then((list) => { 
-    if(!list.length) return;
-    list.forEach((file)=> {
-      if(file) fs.promises.copyFile(path.join(folderSrc,file), path.join(folderDest, file));        
-    });  
-  });
+  copyFolder(folderSrc, folderDest);
 });
+
+function copyFolder(src, dest){
+  fs.promises.readdir(src).then( list => {
+    list.forEach(file => {
+      fs.promises.stat(path.join(src, file)).then( stat => {
+        if(stat.isDirectory()){
+          fs.promises.mkdir(path.join(dest, file),{recursive: true}).then(()=>{
+            copyFolder(path.join(src, file), path.join(dest, file));
+          });
+        }else{         
+          fs.promises.copyFile(path.join(src, file), path.join(dest, file));
+        }
+      });
+    });
+  });
+}
