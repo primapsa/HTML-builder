@@ -1,7 +1,7 @@
 const libFs = require('fs');
 const libPath = require('path');
 const filename = 'text.txt';
-const path = libPath.resolve(__dirname, filename);
+const path = libPath.join(__dirname, filename);
 const stdout = process.stdout;
 const handle = libFs.ReadStream(path, 'utf-8');
 let fullData = '';

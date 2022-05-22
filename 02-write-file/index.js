@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const filename = 'text.txt';
-const filePath = path.resolve(__dirname, filename);
+const filePath = path.join(__dirname, filename);
 const fileHandler = fs.WriteStream(filePath, 'utf-8');
 const {stdin, stdout} = process;
 stdout.write('Write something, please...\n');
