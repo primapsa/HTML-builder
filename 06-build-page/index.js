@@ -5,7 +5,7 @@ const regexp = /{{(?<name>.+?)}}/im;
 createBundle();
 
 async function createBundle(){
-  prepareFolder('project-dist').then( res => {
+  prepareFolder('project-dist/assets').then( res => {
     if(res){
       const pathSrc = path.join(__dirname, 'template.html');
       const pathDest = path.join(__dirname, 'project-dist', 'index.html');
@@ -55,7 +55,7 @@ function copyFolder(src, dest){
           fs.promises.mkdir(path.join(dest, file),{recursive: true}).then(()=>{
             copyFolder(path.join(src, file), path.join(dest, file));
           });
-        }else{         
+        }else{             
           fs.promises.copyFile(path.join(src, file), path.join(dest, file));
         }
       });
