@@ -1,17 +1,22 @@
 const path = require('path');
 const fs = require('fs');
+
 const pathDest = path.join(__dirname, 'project-dist');
 const pathSrc = path.join(__dirname, 'styles');
 const writeHandler = fs.WriteStream(path.join(pathDest,'bundle.css'),'utf-8');
-fs.promises.readdir(pathSrc).then((list) => { 
-  if(!list.length) return;
-  
-  list.forEach((file)=> {
-    if(!file) return;
+
+createBundle();
+async function createBundle(){
+  const files = await fs.promises.readdir(pathSrc);
+  if(!files.length) return;
+  files.forEach(async (file) =>{
     let filePath = path.join(pathSrc, file);
-    let fileExtension = path.extname(filePath).substring(1);    
+    let fileExtension = path.extname(filePath).substring(1);  
     if(fileExtension !== 'css') return;
-    let readHandler = fs.ReadStream(filePath, 'utf-8');
-    readHandler.pipe(writeHandler);
-  });  
-});
+    await new Promise((resolve) => {
+      let readHandler = fs.ReadStream(filePath, 'utf-8');
+      let writeStream = readHandler.pipe(writeHandler);
+      writeStream.on('finish', () => { resolve(true); });
+    });   
+  });
+}
