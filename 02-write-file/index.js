@@ -8,7 +8,7 @@ stdout.write('Write something, please...\n');
 stdin.on('data', (data)=>{
   data = data.toString();  
   if(!data) return;
-  if(data === 'exit\r\n'){
+  if(data.trim() === 'exit'){
     process.exit();
   }else{
     fileHandler.write(data);}    
