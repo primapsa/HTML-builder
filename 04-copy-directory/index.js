@@ -4,20 +4,16 @@ const folderDest = path.join(__dirname, 'files-copy');
 const folderSrc = path.join(__dirname, 'files');
 
 prepareCopy();
+
 async function  prepareCopy() {
-  const isFolder = await fs.promises.stat(folderDest);
-  if(isFolder){
-    const files = await fs.promises.readdir(folderDest);
-    if(files.length){
-      files.forEach(async file => {
-        await fs.promises.rm(path.join(folderDest, file),{recursive: true, force: true, maxRetries: 5});
-      });
-    }
-    copyFolder(folderSrc, folderDest);    
+  await fs.promises.mkdir(folderDest,{recursive: true}); 
+  const files = await fs.promises.readdir(folderDest);
+  if(files.length){
+    files.forEach(async file => {
+      await fs.promises.rm(path.join(folderDest, file),{recursive: true, force: true, maxRetries: 5});
+    });
   }
-  else{
-    fs.promises.mkdir(folderDest,{recursive: true});
-  }
+  copyFolder(folderSrc, folderDest);    
 }
 
 function copyFolder(src, dest){
